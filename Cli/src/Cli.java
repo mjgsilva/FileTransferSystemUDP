@@ -9,11 +9,13 @@ public class Cli {
     final private String ip;
     final private int port;
     final private int bufferSize;
+    final private String destinationFolder;
 
-    public Cli(String ip, String port, String bufferSize) {
+    public Cli(String ip, String port, String bufferSize, String destinationFolder) {
         this.ip = ip;
         this.port = Integer.parseInt(port);
         this.bufferSize = Integer.parseInt(bufferSize);
+        this.destinationFolder = destinationFolder;
     }
 
     private String[] Tokenizer(String input){
@@ -30,7 +32,7 @@ public class Cli {
 
     public void Execute()
     {
-        Communication com = new Communication(bufferSize);
+        Communication com = new Communication(bufferSize,destinationFolder);
 
         BufferedReader reader;
         String input;
@@ -59,8 +61,12 @@ public class Cli {
                             System.out.println(com.receiveList(com.receiveListBytes()));
                             break;
                         case "download":
-                            com.sendDonwloadRequest(cmd[2]);
-                            com.downloadFile(com.downloadFileBytes(), cmd[2]);
+                            com.sendDownloadRequest(cmd[2]);
+                            long size = Long.parseLong(com.downloadFileBytes());
+                            if(size > 0)
+                                com.downloadFile(size, cmd[2]);
+                            else
+                                System.out.println("File not found");
                             break;
                         default:
                             System.out.println("Invalid command");

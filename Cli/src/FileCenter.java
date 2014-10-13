@@ -11,8 +11,8 @@ public class FileCenter {
     private Long fileSize;
     private File downloadFile;
 
-    public FileCenter(){
-        this.dir = "/Users/mario/Desktop/";
+    public FileCenter(String destinationFolder){
+        this.dir = destinationFolder;
     }
 
     public void openFile(String fileName, Long fileSize)

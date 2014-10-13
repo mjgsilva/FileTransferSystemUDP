@@ -14,10 +14,10 @@ public class Communication {
     private final FileCenter file;
 
 
-    public Communication(int size){
+    public Communication(int size,String destinationFolder){
         packetInbound = new DatagramPacket(new byte[size],size);
         packetOutbound = new DatagramPacket(new byte[size],size);
-        file = new FileCenter();
+        file = new FileCenter(destinationFolder);
     }
 
     public boolean configureSocket(String ip, int port) {
@@ -104,7 +104,7 @@ public class Communication {
         return list.toString();
     }
 
-    public void sendDonwloadRequest(String fileName) {
+    public void sendDownloadRequest(String fileName) {
         try {
             packetOutbound.setData(fileName.getBytes());
             packetOutbound.setLength(packetOutbound.getLength());
@@ -133,14 +133,13 @@ public class Communication {
         return fileSize.toString();
     }
 
-    public void downloadFile(String fileSizeBytes, String fileName) {
+    public void downloadFile(long fileSizeBytes, String fileName) {
         FileOutputStream fos;
         BufferedOutputStream bos;
-        Long fileSize = Long.parseLong(fileSizeBytes);
         int it;
 
         try {
-            file.openFile(fileName, fileSize);
+            file.openFile(fileName, fileSizeBytes);
             packetOutbound.setData("".getBytes());
 
             fos = new FileOutputStream(file.getFullPath());
@@ -149,7 +148,7 @@ public class Communication {
             System.out.println(downloadStats());
 
             it = 0;
-            while (it < fileSize) {
+            while (it < fileSizeBytes) {
                 socket.receive(packetInbound);
                 byte[] chunk = packetInbound.getData();
                 bos.write(chunk, packetInbound.getOffset(), packetInbound.getLength());
