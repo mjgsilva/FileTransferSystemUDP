@@ -6,12 +6,9 @@ public class Init {
     {
         String ip = args[0];
         String port = args[1];
-        String bufferSize = args[2];
-        String destinationFolder = args[3];
+        String destinationFolder = args[2];
 
-        //Cli cli = new Cli("127.0.0.1","5000","512");
-
-        Cli cli = new Cli(ip,port,bufferSize,destinationFolder);
+        Cli cli = new Cli(ip,port,512,destinationFolder);
         cli.Execute();
     }
 }

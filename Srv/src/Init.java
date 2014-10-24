@@ -7,11 +7,9 @@ public class Init {
         System.out.println("Server's ON");
         String port = args[0];
         String dir = args[1];
-        String bufferSize = args[2];
+        String bufferSize = 512;
 
-        //Srv srv = new Srv("5000","/Users/mario/Downloads/","512");
-
-        Srv srv = new Srv(port,dir,bufferSize);
+        Srv srv = new Srv(port,dir);
         srv.Execute();
     }
 }

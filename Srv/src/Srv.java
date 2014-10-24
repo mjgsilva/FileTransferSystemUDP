@@ -2,12 +2,6 @@
  * Created by mario on 06/10/14.
  */
 
-/* File root = new File(rootDirectory).getCanonicalFile();
-String name = root + File.separator+req;
-File file = new File(name).getCanonicalFile();
-if(!file.getAbsolutePath().startsWith(root.getAbsolutePath())){..}
- */
-
 public class Srv {
     private final int port;
     private final String dir;
@@ -30,7 +24,6 @@ public class Srv {
 
         while (true) {
             /* First Request: :2 - Shutdown; :1 - List all the files; x - Filename */
-
             request = com.getFirstRequest(); // Wait for the first request
             System.out.println(com.messageRequest());
 
